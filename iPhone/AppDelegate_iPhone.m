@@ -12,7 +12,7 @@
 
 @implementation AppDelegate_iPhone
 
-@synthesize mix;
+@synthesize mix, player;
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -40,11 +40,20 @@
 	}
 	
 	[self.mix.mutableTracks setArray:a];
+	
+	self.player = [[ILPartyPlayer new] autorelease];
+	self.player.mix = self.mix;
+	[self.player play];
 	// </TEST>
 	
     [window makeKeyAndVisible];
     
     return YES;
+}
+
+- (IBAction) next;
+{
+	[self.mix makeNextCurrent];
 }
 
 

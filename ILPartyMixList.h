@@ -33,4 +33,8 @@ typedef NSInteger ILPartyTrackKind;
 
 - (ILPartyTrackKind) kindOfTrackAtIndex:(NSInteger) i;
 
+#if DEBUG
++ (NSArray*) orderedTracksForMix:(ILPartyMix*) m;
+#endif
+
 @end

@@ -79,6 +79,9 @@
 		case kILPartyMixDesiredTrack:
 			cell.textLabel.textColor = [UIColor redColor];
 			break;
+		case kILPartyMixCurrentTrack:
+			cell.textLabel.textColor = [UIColor blueColor];
+			break;
 		default:
 			cell.textLabel.textColor = [UIColor blackColor];
 			break;

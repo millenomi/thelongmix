@@ -21,6 +21,11 @@
 		158D4BD4124925C300C54F42 /* ILPartyMixList.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D4BD3124925C300C54F42 /* ILPartyMixList.m */; };
 		1594441F1247C1AF004E921D /* ILPartyMix.m in Sources */ = {isa = PBXBuildFile; fileRef = 1594441E1247C1AF004E921D /* ILPartyMix.m */; };
 		15D29A29125375E1001952A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 151C23E5124E5589007D397A /* Foundation.framework */; };
+		15D29A54125383DF001952A3 /* ILPartyPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D29A53125383DF001952A3 /* ILPartyPlayer.m */; };
+		15D29AB812538E0E001952A3 /* ILSensorSink.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D29AB712538E0E001952A3 /* ILSensorSink.m */; };
+		15D29AB912538E0E001952A3 /* ILSensorSink.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D29AB712538E0E001952A3 /* ILSensorSink.m */; };
+		15D29B1B125397E2001952A3 /* ILSensorSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D29B1A125397E2001952A3 /* ILSensorSession.m */; };
+		15D29B1C125397E2001952A3 /* ILSensorSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D29B1A125397E2001952A3 /* ILSensorSession.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		2860E328111B887F00E27156 /* AppDelegate_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 2860E326111B887F00E27156 /* AppDelegate_iPhone.m */; };
 		2860E329111B887F00E27156 /* MainWindow_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2860E327111B887F00E27156 /* MainWindow_iPhone.xib */; };
@@ -47,6 +52,12 @@
 		1594441D1247C1AF004E921D /* ILPartyMix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILPartyMix.h; sourceTree = "<group>"; };
 		1594441E1247C1AF004E921D /* ILPartyMix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILPartyMix.m; sourceTree = "<group>"; };
 		15D0F97D124A9BDA002A2C3A /* ILPartyKVCTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILPartyKVCTools.h; sourceTree = "<group>"; };
+		15D29A52125383DF001952A3 /* ILPartyPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILPartyPlayer.h; sourceTree = "<group>"; };
+		15D29A53125383DF001952A3 /* ILPartyPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILPartyPlayer.m; sourceTree = "<group>"; };
+		15D29AB612538E0E001952A3 /* ILSensorSink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILSensorSink.h; sourceTree = "<group>"; };
+		15D29AB712538E0E001952A3 /* ILSensorSink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILSensorSink.m; sourceTree = "<group>"; };
+		15D29B19125397E2001952A3 /* ILSensorSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILSensorSession.h; sourceTree = "<group>"; };
+		15D29B1A125397E2001952A3 /* ILSensorSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILSensorSession.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* TheLongMix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheLongMix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2860E325111B887F00E27156 /* AppDelegate_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate_iPhone.h; sourceTree = "<group>"; };
 		2860E326111B887F00E27156 /* AppDelegate_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate_iPhone.m; sourceTree = "<group>"; };
@@ -101,8 +112,21 @@
 				1589CC38124D00E1004BAC5B /* ILPartyTrack.m */,
 				1589CCCB124D2034004BAC5B /* ILPartyTrackSource.h */,
 				1589CCCC124D2034004BAC5B /* ILPartyTrackSource.m */,
+				15D29A52125383DF001952A3 /* ILPartyPlayer.h */,
+				15D29A53125383DF001952A3 /* ILPartyPlayer.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		15D29AB512538DC4001952A3 /* Debug Tools & Telemetry */ = {
+			isa = PBXGroup;
+			children = (
+				15D29AB612538E0E001952A3 /* ILSensorSink.h */,
+				15D29AB712538E0E001952A3 /* ILSensorSink.m */,
+				15D29B19125397E2001952A3 /* ILSensorSession.h */,
+				15D29B1A125397E2001952A3 /* ILSensorSession.m */,
+			);
+			name = "Debug Tools & Telemetry";
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -137,6 +161,7 @@
 		28EEBF621118D79A00187D67 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				15D29AB512538DC4001952A3 /* Debug Tools & Telemetry */,
 				1589CC36124D00D5004BAC5B /* Model */,
 				8D1107310486CEB800E47090 /* TheLongMix-Info.plist */,
 				1589CCB7124D16BB004BAC5B /* ILPartyMixTable.h */,
@@ -286,6 +311,8 @@
 				150EC90D124BB48B00DA8296 /* ILPartyMixList.m in Sources */,
 				150EC90F124BB48B00DA8296 /* ILPartyMix.m in Sources */,
 				1589CC39124D00E1004BAC5B /* ILPartyTrack.m in Sources */,
+				15D29AB812538E0E001952A3 /* ILSensorSink.m in Sources */,
+				15D29B1B125397E2001952A3 /* ILSensorSession.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +328,9 @@
 				1589CC3A124D00E1004BAC5B /* ILPartyTrack.m in Sources */,
 				1589CCB9124D16BB004BAC5B /* ILPartyMixTable.m in Sources */,
 				1589CCCD124D2034004BAC5B /* ILPartyTrackSource.m in Sources */,
+				15D29A54125383DF001952A3 /* ILPartyPlayer.m in Sources */,
+				15D29AB912538E0E001952A3 /* ILSensorSink.m in Sources */,
+				15D29B1C125397E2001952A3 /* ILSensorSession.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,6 +12,7 @@
 
 #import "ILPartyMix.h"
 #import "ILPartyMixTable.h"
+#import "ILPartyPlayer.h"
 
 @interface AppDelegate_iPhone : NSObject <UIApplicationDelegate> {
     IBOutlet UIWindow *window;
@@ -22,6 +23,9 @@
 }
 
 @property(nonatomic, retain) ILPartyMix* mix;
+@property(nonatomic, retain) ILPartyPlayer* player;
+
+- (IBAction) next;
 
 @end
 

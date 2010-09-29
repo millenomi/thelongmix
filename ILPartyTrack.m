@@ -67,6 +67,11 @@
 	return [[mediaItem valueForProperty:MPMediaItemPropertyArtwork] imageOfSize:size];
 }
 
+- (NSString *) descriptionForDebugging;
+{
+	return [NSString stringWithFormat:@"<%@ (%p - '%@' [%llu])>", NSStringFromClass([self class]), self, self.title, self.mediaItemIdentifier];
+}
+
 @end
 
 #endif // TARGET_OS_IPHONE

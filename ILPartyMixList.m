@@ -9,6 +9,8 @@
 #import "ILPartyMixList.h"
 #import "ILPartyMix.h"
 
+#import "ILSensorSink.h"
+
 @interface ILPartyMixList ()
 
 - (void) stopObservingMix;
@@ -32,6 +34,15 @@
 
 
 @implementation ILPartyMixList
+
+#if DEBUG
++ (NSArray*) orderedTracksForMix:(ILPartyMix*) m;
+{
+	ILPartyMixList* ml = [[self new] autorelease];
+	ml.mix = m;
+	return ml.orderedTracks;
+}
+#endif
 
 - (id) init
 {
@@ -131,10 +142,14 @@ ILAccessorForKVCMutableArray(mutableOrderedTracks, orderedTracks)
 {
 	// The easy way out: [self rebuildOrderedTracks];
 	
+	ILLogDict(self.orderedTracks, @"orderedTracksBeforeRearranging", change, @"change", key, @"changedPath");
+	
 	if ([key isEqual:@"currentTrack"])
 		[self handleChangeToCurrentTrack:change];
 	else
 		[self handleChange:change toCollectionKey:key];
+	
+	ILLogDict(self.orderedTracks, @"orderedTracksAfterRearranging", change, @"change", key, @"changedPath");
 }
 
 - (void) handleChangeToCurrentTrack:(NSDictionary*) change;

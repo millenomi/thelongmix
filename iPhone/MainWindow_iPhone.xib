@@ -13,7 +13,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="16"/>
-			<integer value="2"/>
+			<integer value="10"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -60,6 +60,38 @@
 					<object class="IBUIView" id="434876430">
 						<reference key="NSNextResponder" ref="380026005"/>
 						<int key="NSvFlags">1316</int>
+						<object class="NSMutableArray" key="NSSubviews">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUIButton" id="631079730">
+								<reference key="NSNextResponder" ref="434876430"/>
+								<int key="NSvFlags">1316</int>
+								<string key="NSFrame">{{223, 43}, {72, 37}}</string>
+								<reference key="NSSuperview" ref="434876430"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<object class="NSFont" key="IBUIFont">
+									<string key="NSName">Helvetica-Bold</string>
+									<double key="NSSize">15</double>
+									<int key="NSfFlags">16</int>
+								</object>
+								<int key="IBUIButtonType">1</int>
+								<string key="IBUINormalTitle">&gt;&gt;</string>
+								<object class="NSColor" key="IBUIHighlightedTitleColor" id="1023078676">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+								</object>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+								</object>
+								<object class="NSColor" key="IBUINormalTitleShadowColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC41AA</bytes>
+								</object>
+							</object>
+						</object>
 						<string key="NSFrame">{{0, 20}, {320, 120}}</string>
 						<reference key="NSSuperview" ref="380026005"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -113,10 +145,7 @@
 							<int key="NSvFlags">274</int>
 							<string key="NSFrameSize">{320, 416}</string>
 							<reference key="NSSuperview"/>
-							<object class="NSColor" key="IBUIBackgroundColor">
-								<int key="NSColorSpace">3</int>
-								<bytes key="NSWhite">MQA</bytes>
-							</object>
+							<reference key="IBUIBackgroundColor" ref="1023078676"/>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -204,6 +233,15 @@
 					</object>
 					<int key="connectionID">22</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">next</string>
+						<reference key="source" ref="631079730"/>
+						<reference key="destination" ref="987256611"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">24</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -249,6 +287,10 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">10</int>
 						<reference key="object" ref="434876430"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="631079730"/>
+						</object>
 						<reference key="parent" ref="380026005"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -286,6 +328,11 @@
 						<reference key="object" ref="117784035"/>
 						<reference key="parent" ref="254099007"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">23</int>
+						<reference key="object" ref="631079730"/>
+						<reference key="parent" ref="434876430"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -306,6 +353,7 @@
 					<string>2.IBEditorWindowLastContentRect</string>
 					<string>2.IBPluginDependency</string>
 					<string>2.UIWindow.visibleAtLaunch</string>
+					<string>23.IBPluginDependency</string>
 					<string>4.CustomClassName</string>
 					<string>4.IBPluginDependency</string>
 					<string>9.IBPluginDependency</string>
@@ -334,6 +382,7 @@
 					<string>{{332, 376}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<integer value="1"/>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>AppDelegate_iPhone</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -355,7 +404,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">22</int>
+			<int key="maxID">24</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -363,6 +412,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">AppDelegate_iPhone</string>
 					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">next</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">next</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">next</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -571,7 +631,7 @@
 			<integer value="3100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">../Party.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../TheLongMix.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<string key="IBCocoaTouchPluginVersion">123</string>
 	</data>

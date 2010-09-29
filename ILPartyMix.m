@@ -9,6 +9,8 @@
 #import "ILPartyMix.h"
 #import "ILPartyKVCTools.h"
 
+#import "ILSensorSession.h"
+
 @implementation ILPartyMix
 
 + mix;
@@ -70,6 +72,9 @@ ILAccessorForKVCMutableArray(mutableDesiredTracks, desiredTracks)
 	// TODO limits to past tracks.
 	// TODO fetch tracks from track source.
 	
+	ILSensorSession* s = ILSession(self, @"mix", @"makeNextCurrent", @"changeSessionKind");
+	[s update];
+	
 	id <ILPartyTrack> track = self.currentTrack;
 	
 	id <ILPartyTrack> nextTrack = nil;
@@ -85,15 +90,26 @@ ILAccessorForKVCMutableArray(mutableDesiredTracks, desiredTracks)
 	[[track retain] autorelease];
 	[[nextTrack retain] autorelease];
 	
-	if (track) {
-		self.currentTrack = nil;
+	if (track)
 		[self.mutablePastTracks addObject:track];
-	}
 	
-	if (nextTrack) {
+	if (nextTrack)
 		[nextTrackSource removeObjectAtIndex:0];
-		self.currentTrack = nextTrack;
-	}
+
+	self.currentTrack = nextTrack;
+	
+	[s setObject:self forPropertyKey:@"mix"];
+	[s end];
+}
+
+- (id) descriptionForDebugging;
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+			(id) self.currentTrack ?: (id) [NSNull null], @"currentTrack",
+			self.tracks, @"tracks",
+			self.pastTracks, @"pastTracks",
+			self.desiredTracks, @"desiredTracks",
+			nil];
 }
 
 @end

@@ -36,8 +36,17 @@
 #if TARGET_OS_IPHONE
 
 #import <MediaPlayer/MediaPlayer.h>
+#import <AVFoundation/AVFoundation.h>
 
-@interface ILPartyMediaItemTrack : NSObject <ILPartyTrack> {
+@protocol ILPartyMediaItemTrack <ILPartyTrack>
+
+- (MPMediaItem*) mediaItem;
+- (unsigned long long) mediaItemIdentifier;
+
+@end
+
+
+@interface ILPartyMediaItemTrack : NSObject <ILPartyMediaItemTrack> {
 	MPMediaItem* mediaItem;
 }
 
