@@ -11,12 +11,16 @@
 #import "ILPartyTrack.h"
 #import "ILPartyTrackSource.h"
 
+#define kILPartyMixWillPerformBatchUpdateNotification @"ILPartyMixWillPerformBatchUpdate"
+#define kILPartyMixDidEndPerformingBatchUpdateNotification @"ILPartyMixDidEndPerformingBatchUpdate"
+
 enum {
 	kILPartyMixTrackMinimumNone = -1,
 };
 
 @interface ILPartyMix : NSObject {
 	NSMutableArray* mutableTracksArray, * mutablePastTracksArray, * mutableDesiredTracksArray;
+	NSUInteger batchCount;
 }
 
 + mix;
@@ -41,5 +45,7 @@ enum {
 
 @property(assign) NSUInteger minimumNumberOfTracks;
 @property(retain) id <ILPartyTrackSource> trackSource;
+
+@property(readonly, getter=isPerformingUpdateBatch) BOOL performingUpdateMatch;
 
 @end

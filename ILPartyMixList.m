@@ -8,6 +8,7 @@
 
 #import "ILPartyMixList.h"
 #import "ILPartyMix.h"
+#import "ILPartyMixChange.h"
 
 #import "ILSensorSink.h"
 
@@ -18,8 +19,9 @@
 
 // @property(readonly) NSRange rangeOfPastTracks, rangeOfCurrentTrack, rangeOfDesiredTracks, rangeOfTracks;
 
-- (void) handleChangeToCurrentTrack:(NSDictionary *)change;
+- (void) handleChangeToCurrentTrack;
 - (void) handleChange:(NSDictionary *)change toCollectionKey:(NSString *)key;
+- (void) handleChangeOfKind:(NSKeyValueChange) changeKind atIndexes:(NSIndexSet*) indexes toCollectionKey:(NSString*) key;
 
 - (void) rebuildOrderedTracks;
 
@@ -29,6 +31,8 @@
 - (NSRange) setLength:(NSInteger)len forCollectionKey:(NSString *)key;
 - (NSRange) setLengthByDelta:(NSInteger)delta forCollectionKey:(NSString *)key;
 - (NSIndexSet *) indexesByShiftingIndexSet:(NSIndexSet *)indexes forCollectionKey:(NSString *)key;
+
+@property(retain) ILPartyMixChangeRecorder* recorder;
 
 @end
 
@@ -58,18 +62,23 @@
 	[self stopObservingMix];
 	[mix release];
 	[mutableOrderedTracks release];
+	self.recorder = nil;
 	[super dealloc];
 }
 
 
+@synthesize recorder;
 
 - (void) beginObservingMix;
 {
 	ILPartyMix* m = self.mix;
-	[m addObserver:self forKeyPath:@"pastTracks" options:NSKeyValueObservingOptionNew context:NULL];
-	[m addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionNew context:NULL];
-	[m addObserver:self forKeyPath:@"desiredTracks" options:NSKeyValueObservingOptionNew context:NULL];
-	[m addObserver:self forKeyPath:@"tracks" options:NSKeyValueObservingOptionNew context:NULL];
+	[m addObserver:self forKeyPath:@"pastTracks" options:0 context:NULL];
+	[m addObserver:self forKeyPath:@"currentTrack" options:0 context:NULL];
+	[m addObserver:self forKeyPath:@"desiredTracks" options:0 context:NULL];
+	[m addObserver:self forKeyPath:@"tracks" options:0 context:NULL];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willPerformBatchUpdate:) name:kILPartyMixWillPerformBatchUpdateNotification object:m];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEndPerformingBatchUpdate:) name:kILPartyMixDidEndPerformingBatchUpdateNotification object:m];
 }
 
 - (void) stopObservingMix;
@@ -79,6 +88,26 @@
 	[m removeObserver:self forKeyPath:@"currentTrack"];
 	[m removeObserver:self forKeyPath:@"desiredTracks"];
 	[m removeObserver:self forKeyPath:@"tracks"];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:kILPartyMixWillPerformBatchUpdateNotification object:m];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:kILPartyMixDidEndPerformingBatchUpdateNotification object:m];
+}
+
+- (void) willPerformBatchUpdate:(NSNotification*) n;
+{
+	self.recorder = [[ILPartyMixChangeRecorder new] autorelease];
+}
+
+- (void) didEndPerformingBatchUpdate:(NSNotification*) n;
+{
+	for (ILPartyMixChange* change in self.recorder.changes) {
+		if ([change.key isEqual:@"currentTrack"])
+			[self handleChangeToCurrentTrack];
+		else
+			[self handleChangeOfKind:change.change atIndexes:change.affectedIndexes toCollectionKey:change.key];
+	}
+	
+	self.recorder = nil;
 }
 
 @synthesize mix;
@@ -142,19 +171,22 @@ ILAccessorForKVCMutableArray(mutableOrderedTracks, orderedTracks)
 {
 	// The easy way out: [self rebuildOrderedTracks];
 	
+	if (self.recorder)
+		return;
+	
 	ILLogDict(self.orderedTracks, @"orderedTracksBeforeRearranging", change, @"change", key, @"changedPath");
 	
 	if ([key isEqual:@"currentTrack"])
-		[self handleChangeToCurrentTrack:change];
+		[self handleChangeToCurrentTrack];
 	else
 		[self handleChange:change toCollectionKey:key];
 	
 	ILLogDict(self.orderedTracks, @"orderedTracksAfterRearranging", change, @"change", key, @"changedPath");
 }
 
-- (void) handleChangeToCurrentTrack:(NSDictionary*) change;
+- (void) handleChangeToCurrentTrack;
 {
-	id newOne = [change objectForKey:NSKeyValueChangeNewKey];
+	id newOne = self.mix.currentTrack;
 	
 	if (newOne == [NSNull null])
 		newOne = nil;
@@ -182,6 +214,12 @@ ILAccessorForKVCMutableArray(mutableOrderedTracks, orderedTracks)
 - (void) handleChange:(NSDictionary*) change toCollectionKey:(NSString*) key;
 {
 	NSKeyValueChange changeKind = [[change objectForKey:NSKeyValueChangeKindKey] unsignedIntegerValue];
+	NSIndexSet* indexes = [change objectForKey:NSKeyValueChangeIndexesKey];
+	[self handleChangeOfKind:changeKind atIndexes:indexes toCollectionKey:key];
+}
+
+- (void) handleChangeOfKind:(NSKeyValueChange) changeKind atIndexes:(NSIndexSet*) indexes toCollectionKey:(NSString*) key;
+{
 	
 	switch (changeKind) {
 		case NSKeyValueChangeSetting:
@@ -199,7 +237,6 @@ ILAccessorForKVCMutableArray(mutableOrderedTracks, orderedTracks)
 			
 		case NSKeyValueChangeRemoval:
 		{
-			NSIndexSet* indexes = [change objectForKey:NSKeyValueChangeIndexesKey];
 			NSIndexSet* ourIndexes = [self indexesByShiftingIndexSet:indexes forCollectionKey:key];
 			
 			[self setLengthByDelta:-[indexes count] forCollectionKey:key];
@@ -211,11 +248,9 @@ ILAccessorForKVCMutableArray(mutableOrderedTracks, orderedTracks)
 			
 		case NSKeyValueChangeInsertion:
 		{
-
-			NSIndexSet* indexes = [change objectForKey:NSKeyValueChangeIndexesKey];
 			NSIndexSet* ourIndexes = [self indexesByShiftingIndexSet:indexes forCollectionKey:key];
 			
-			id newOnes = [change objectForKey:NSKeyValueChangeNewKey];
+			id newOnes = [[self.mix valueForKey:key] objectsAtIndexes:indexes];
 			
 			[self setLengthByDelta:[indexes count] forCollectionKey:key];
 			[self.mutableOrderedTracks insertObjects:newOnes atIndexes:ourIndexes];
@@ -225,10 +260,9 @@ ILAccessorForKVCMutableArray(mutableOrderedTracks, orderedTracks)
 		
 		case NSKeyValueChangeReplacement:
 		{
-			NSIndexSet* indexes = [change objectForKey:NSKeyValueChangeIndexesKey];
 			NSIndexSet* ourIndexes = [self indexesByShiftingIndexSet:indexes forCollectionKey:key];
 			
-			id newOnes = [change objectForKey:NSKeyValueChangeNewKey];
+			id newOnes = [[self.mix valueForKey:key] objectsAtIndexes:indexes];
 			
 			[self.mutableOrderedTracks replaceObjectsAtIndexes:ourIndexes withObjects:newOnes];
 		}

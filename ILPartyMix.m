@@ -11,6 +11,14 @@
 
 #import "ILSensorSession.h"
 
+@interface ILPartyMix ()
+
+- (void) beginPerformingUpdateBatch;
+- (void) endPerformingUpdateBatch;
+
+@end
+
+
 @implementation ILPartyMix
 
 + mix;
@@ -72,6 +80,8 @@ ILAccessorForKVCMutableArray(mutableDesiredTracks, desiredTracks)
 	// TODO limits to past tracks.
 	// TODO fetch tracks from track source.
 	
+	[self beginPerformingUpdateBatch];
+	
 	ILSensorSession* s = ILSession(self, @"mix", @"makeNextCurrent", @"changeSessionKind");
 	[s update];
 	
@@ -100,6 +110,8 @@ ILAccessorForKVCMutableArray(mutableDesiredTracks, desiredTracks)
 	
 	[s setObject:self forPropertyKey:@"mix"];
 	[s end];
+	
+	[self endPerformingUpdateBatch];
 }
 
 - (id) descriptionForDebugging;
@@ -110,6 +122,27 @@ ILAccessorForKVCMutableArray(mutableDesiredTracks, desiredTracks)
 			self.pastTracks, @"pastTracks",
 			self.desiredTracks, @"desiredTracks",
 			nil];
+}
+
+- (BOOL) isPerformingUpdateBatch;
+{
+	return batchCount > 0;
+}
+
+- (void) beginPerformingUpdateBatch;
+{
+	batchCount++;
+	
+	if (batchCount == 1)
+		[[NSNotificationCenter defaultCenter] postNotificationName:kILPartyMixWillPerformBatchUpdateNotification object:self];
+}
+
+- (void) endPerformingUpdateBatch;
+{
+	batchCount--;
+
+	if (batchCount == 0)
+		[[NSNotificationCenter defaultCenter] postNotificationName:kILPartyMixDidEndPerformingBatchUpdateNotification object:self];
 }
 
 @end
